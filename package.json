@@ -1,0 +1,30 @@
+{
+  "name": "discord-server-manager-suite",
+  "version": "1.0.0",
+  "description": "Production-ready Discord Server Management Web Panel and Bot",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "bot",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"",
+    "dev:bot": "npm run dev --workspace=bot",
+    "dev:all": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=bot\" \"npm run dev --workspace=frontend\"",
+    "build": "npm run prisma:generate && npm run build --workspace=frontend",
+    "start": "concurrently \"npm run start --workspace=backend\" \"npm run start --workspace=frontend\"",
+    "deploy:commands": "npm run deploy --workspace=bot",
+    "prisma:generate": "npx prisma generate",
+    "prisma:push": "npx prisma db push",
+    "prisma:studio": "npx prisma studio"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "prisma": "^5.22.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0"
+  }
+}
+

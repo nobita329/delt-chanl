@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id // Discord User Snowflake ID
+  username       String
+  discriminator  String?   @default("0")
+  globalName     String?
+  avatar         String?
+  accessToken    String?
+  refreshToken   String?
+  tokenExpiresAt DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  sessions       Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+}
+
+model GuildSetting {
+  guildId         String   @id // Discord Guild Snowflake ID
+  prefix          String   @default("!")
+  logChannelId    String?
+  managerRoleId   String?
+  auditLogEnabled Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  guildId     String
+  action      String   // e.g. "CATEGORY_CREATE", "CHANNEL_DELETE", "CHANNEL_LOCK", etc.
+  targetId    String?
+  targetName  String?
+  executorId  String
+  executorTag String
+  source      String   @default("WEB_PANEL") // "WEB_PANEL" or "DISCORD_BOT"
+  details     String?  // JSON stringified details
+  createdAt   DateTime @default(now())
+
+  @@index([guildId])
+  @@index([createdAt])
+}
+

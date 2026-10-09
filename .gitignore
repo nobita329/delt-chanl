@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+frontend/.next/
+frontend/out/
+
+# Production
+build/
+dist/
+
+# SQLite Database
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+prisma/*.db
+prisma/*.db-journal
+*.sqlite
+*.sqlite3
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.*
+!.env.example
+backend/.env
+frontend/.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+logs/
+
+# OS and Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
